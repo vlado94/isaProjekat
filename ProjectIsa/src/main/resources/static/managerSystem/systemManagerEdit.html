@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <form name = "edit">
+              <div class="col-sm-3 sidenav">
+                    <label>Configuration name:</label>
+                    <input type="text" id="configurationName" class="form-control"  placeholder="Configuration name" required/>
+                    <br>
+                    <ul class="nav nav-pills "  role="tablist" data-ng-repeat="componentType in componentTypes" >
+                        <li><button  type="button" class="btn btn-link" ng-click="openComponents(componentType.id)">{{componentType.name}}</button></li>
+                    </ul>
+                    <button class="btn btn-default" ng-click="updateConfiguration()"><span class="glyphicon glyphicon-ok" ></span> Update</button>
+                    <button class="btn btn-default" ng-click="cancel()"><span class="glyphicon glyphicon-remove" ></span> Cancel</button>
+              </div>
+        </form>
+	    
+	    
+	    <div class="col-sm-offset-4"> 
+			<table ng-repeat="component in components">
+					<tr data-ng-show = "component.type.id == actualType">
+						<td class="tdComponents">
+							<label>{{component.name}} </label>	
+						</td>
+						<td>
+							<input type = "number" class="form-control col-sm-3" id = "counter-{{component.id}}" max='{{component.amount}}' min = 0 value = 0>
+						</td>
+					</tr>
+			    </table> 
+			</div>	
+        </div>	
+    </div>
+</div>

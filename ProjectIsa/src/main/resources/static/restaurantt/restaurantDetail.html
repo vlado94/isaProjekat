@@ -1,0 +1,60 @@
+<div>
+	<h1>{{restaurantt.name}}</h1>
+	
+	
+	
+	<p>Drinks</p>
+	<table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Id</th>
+				<th>Name</th>
+                <th>Count</th>
+                <th>Price</th>
+	        </tr>
+			<tr ng-repeat="drink in restaurantt.drinks">
+				<td> 
+					{{drink.id}}
+				</td>
+				<td>
+		    		{{drink.name}}	
+				</td>
+            	<td>
+		    		{{drink.count}}	
+				</td>
+            	<td>
+		    		{{drink.price}}	
+				</td>
+            </tr>
+        </tbody>
+    </table> 
+
+	<p>Food</p>
+	<table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Id</th>
+				<th>Name</th>
+                <th>Count</th>
+                <th>Price</th>
+	        </tr>
+			<tr ng-repeat="dish in restaurantt.food">
+				<td> 
+					{{dish.id}}
+				</td>
+				<td>
+		    		{{dish.name}}	
+				</td>
+            	<td>
+		    		{{dish.count}}	
+				</td>
+            	<td>
+		    		{{dish.price}}	
+				</td>
+            </tr>
+        </tbody>
+    </table> 
+</div>
+
+
+

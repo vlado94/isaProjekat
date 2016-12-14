@@ -1,0 +1,33 @@
+ <div>
+	<h1>System managers</h1>
+	
+	<table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Id</th>
+				<th>Firstame</th>
+                <th>Lastname</th>
+                <th>Mail</th>
+               	<th colspan="1">Operations</th>
+	        </tr>
+			<tr ng-repeat="systemManager in systemMenagers">
+				<td> 
+					{{systemManager.id}}
+				</td>
+				<td>
+		    		{{systemManager.firstname}}	
+				</td>
+            	<td>
+		    		{{systemManager.lastname}}	
+				</td>
+            	<td>
+		    		{{systemManager.mail}}	
+				</td>
+				<td>
+					<a ng-click="delete(systemManager)" class="btn btn-small btn-default"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+				</td>
+            </tr>
+		</tbody>
+    </table> 
+</div>
+
