@@ -1,5 +1,6 @@
 package app.drink;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,8 +45,8 @@ public class Drink {
 	private Integer numRate;
 
 	@JsonIgnore
-	@NotNull
-	@ManyToOne
+	// @NotNull
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "RESTAURANT_ID")
 	private Restaurant restaurant;
 }

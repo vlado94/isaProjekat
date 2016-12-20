@@ -1,5 +1,6 @@
 package app.manager.restaurant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,8 @@ public class RestaurantManager extends User {
 	private Long id;
 
 	@JsonIgnore
-	@OneToOne
+	// kako da ubacim da ne brise restoran kad brisem menadzera?
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "RESTAURANT_ID")
 	private Restaurant restaurant;
 }

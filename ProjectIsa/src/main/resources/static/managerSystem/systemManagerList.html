@@ -10,21 +10,46 @@
                 <th>Mail</th>
                	<th colspan="1">Operations</th>
 	        </tr>
-			<tr ng-repeat="systemManager in systemMenagers">
+			<tr ng-repeat="restaurantManager in restaurantManagers">
 				<td> 
-					{{systemManager.id}}
+					{{restaurantManager.id}}
 				</td>
 				<td>
-		    		{{systemManager.firstname}}	
+		    		{{restaurantManager.firstname}}	
 				</td>
             	<td>
-		    		{{systemManager.lastname}}	
+		    		{{restaurantManager.lastname}}	
 				</td>
             	<td>
-		    		{{systemManager.mail}}	
+		    		{{restaurantManager.mail}}	
 				</td>
 				<td>
-					<a ng-click="delete(systemManager)" class="btn btn-small btn-default"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+					<a ng-click="deleteRestaurantManager(restaurantManager)" class="btn btn-small btn-default"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+				</td>
+            </tr>
+        </tbody>
+    </table> 
+    
+    <table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Id</th>
+				<th>Name</th>
+                <th>Manager</th>
+                <th colspan="1">Operations</th>
+	        </tr>
+			<tr ng-repeat="restaurant in restaurants">
+				<td> 
+					{{restaurant.id}}
+				</td>
+				<td>
+		    		{{restaurant.name}}	
+				</td>
+            	<td>
+		    		{{restaurant.restaurantManager.firstname}}	
+				</td>
+            	<td>
+					<a ng-click="deleteRestaurant(restaurant)" class="btn btn-small btn-default"><span class="glyphicon glyphicon-trash"></span> Delete</a>
 				</td>
             </tr>
 		</tbody>

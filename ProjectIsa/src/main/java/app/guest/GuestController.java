@@ -40,7 +40,7 @@ public class GuestController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public void save(@Valid @RequestBody Guest guest) {
 		guest.setId(null);
-		guest.setRegistrated(false);
+		guest.setRegistrated("0");
 		service.save(guest);
 	}
 

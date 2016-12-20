@@ -2,6 +2,7 @@ package app.restaurant;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import app.bidder.Bidder;
 import app.dish.Dish;
 import app.drink.Drink;
+import app.employed.bartender.Bartender;
+import app.employed.cook.Cook;
 import app.employed.waiter.Waiter;
 import app.manager.restaurant.RestaurantManager;
 import app.order.Orderr;
@@ -35,15 +41,15 @@ public class Restaurant {
 	private String name;
 
 	@NotNull
-	@OneToOne
+	@OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "RESTAURANT_MANAGER_ID")
 	private RestaurantManager restaurantManager;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "RESTAURANT_DISH", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "DISH_ID"))
 	private List<Dish> food;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "RESTAURANT_DRINK", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "DRINK_ID"))
 	private List<Drink> drinks;
 
@@ -51,9 +57,25 @@ public class Restaurant {
 	private List<Segment> segments;
 
 	// proveriti kardinalitete
-	@OneToMany
-	@JoinTable(name = "RESTUARANT_STAFF", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "WAITER_ID"))
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "RESTAURANT_WAITERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "WAITER_ID"))
 	private List<Waiter> waiters;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "RESTAURANT_COOKS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "COOK_ID"))
+	private List<Cook> cooks;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "RESTAURANT_BARTENDERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "BARTENDER_ID"))
+	private List<Bartender> bartenders;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "RESTAURANT_BIDDERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "BIDDER_ID"))
+	private List<Bidder> bidders;
 
 	@Column
 	private Integer summRate;
@@ -64,5 +86,4 @@ public class Restaurant {
 	@OneToMany
 	@JoinTable(name = "RESTAURANT_ORDER", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
 	private List<Orderr> order;
-
 }

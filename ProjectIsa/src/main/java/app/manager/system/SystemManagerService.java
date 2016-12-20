@@ -11,5 +11,7 @@ public interface SystemManagerService {
 
 	SystemManager findOne(Long id);
 
+	SystemManager findOne(String mail, String password);
+
 	void delete(Long id);
 }

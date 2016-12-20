@@ -32,5 +32,5 @@ public class User {
 	// flag koji je inicijalno false, i kad korisnik klikne na link pri
 	// registraciji postaje true
 	@Column
-	private boolean registrated;
+	private String registrated;	
 }

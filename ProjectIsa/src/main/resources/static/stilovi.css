@@ -76,3 +76,22 @@ input {
     text-align:left;
     width: 300px;
 }
+
+.center{
+		position: fixed;
+        width: 20%; /* Set your desired with */
+        z-index: 2; /* Make sure its above other items. */
+        top: 35%;
+        left: 50%;
+        margin-top: -10%; /* Changes with height. */
+        margin-left: -10%; /* Your width divided by 2. */
+}
+
+.bottom{
+	position: fixed;
+	bottom: 4%;
+	left: 2%;
+}
+.bottom button{
+	margin: 10px;
+}

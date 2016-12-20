@@ -1,6 +1,7 @@
 <div id = "options">
 	<button ui-sref=".list" class="btn btn-default navbar-btn" ng-click = findAll()><span class="glyphicon glyphicon-list"></span>  List</button>
-	<button ui-sref=".new" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-plus"></span>  Add new</button>
+	<button ui-sref=".newRestaurantManager" class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-plus"></span>  Add new manager</button>
+	<button ui-sref=".newRestaurant" ng-click = findAllFreeRestaurantManagers() class="btn btn-default navbar-btn"><span class="glyphicon glyphicon-plus"></span>  Add new restaurant</button>
 <div>
     <div ui-view></div>
     </div>

@@ -10,6 +10,8 @@ public interface RestaurantManagerService {
 	
 	RestaurantManager findOne(Long id);
 	
+	RestaurantManager findOne(String mail,String password);
+	
 	void delete(Long id);
 
 }

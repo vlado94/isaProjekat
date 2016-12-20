@@ -34,6 +34,17 @@ public class GuestServiceImpl implements GuestService {
 		return repository.findOne(id);
 	}
 
+	// ovo se kasnije na repo spusta
+	@Override
+	public Guest findOne(String mail, String password) {
+		List<Guest> guests = (List<Guest>) repository.findAll();
+		for (int i = 0; i < guests.size(); i++) {
+			if (guests.get(i).getMail().equals(mail) && guests.get(i).getMail().equals(password))
+				return guests.get(i);
+		}
+		return null;
+	}
+
 	@Override
 	public void delete(Long id) {
 		repository.delete(id);
