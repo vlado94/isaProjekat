@@ -1,0 +1,50 @@
+<h1>Guest profile</h1>
+<table class="table table-bordered tableBG" border="1">
+<tr>
+<td>Email: </td><td>{{loggedUser.mail}}</td>
+</tr>
+<tr>
+<td>Ime: </td><td>{{loggedUser.firstname}}</td>
+</tr>
+<tr>
+<td>Prezime: </td><td>{{loggedUser.lastname}}</td>
+</tr>
+</table>
+
+
+
+
+<center>
+<div id="friendFind">
+<label>Find friends</label>
+<form>
+<input  id="inputStr" placeholder="Enter firstname or lastname" type="text" class="form-control x3" ng-model = "inputStr" ng-change = "findFriends()" >
+</form>
+
+<table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Firstame</th>
+                <th>Lastname</th>
+                <th>Mail</th>
+                <th>&nbsp</th>
+            </tr>
+			<tr ng-repeat="guest in guests">
+				<td> 
+					{{guest.firstname}}
+				</td>
+				<td>
+		    		{{guest.lastname}}	
+				</td>
+            	<td>
+		    		{{guest.mail}}	
+				</td>
+				<td>
+					<button class="btn btn-default navbar-btn">Send request</button>
+				</td>
+				
+			</tr>
+		</tbody>
+    </table>  
+</div>
+</center>

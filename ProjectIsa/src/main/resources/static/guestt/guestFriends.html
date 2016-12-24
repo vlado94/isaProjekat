@@ -1,0 +1,65 @@
+<h1>Friends</h1><br/><hr/>
+
+<table ng-init="listFriends()"  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Firstame</th>
+                <th>Lastname</th>
+                <th>Mail</th>
+                <th>Status</th>
+            </tr>
+			<tr ng-repeat="friend in friends">
+				<td> 
+					{{friend.friendReciveRequest.firstname}}
+				</td>
+				<td>
+		    		{{friend.friendReciveRequest.lastname}}	
+				</td>
+            	<td>
+		    		{{friend.friendReciveRequest.mail}}	
+				</td>
+				<td>
+					<label>Pending...</label>
+				</td>
+				
+			</tr>
+		</tbody>
+    </table>  
+
+
+
+
+
+<hr/>
+<div id="friendFind">
+<label>Find friends</label>
+<form>
+<input placeholder="Enter firstname or lastname" type="text" class="form-control x3" ng-model = "$parent.inputStr" ng-change = "findFriends()" >
+</form>
+
+<table  class="table table-bordered tableBG" border="1">
+		<tbody>
+	        <tr>
+				<th>Firstame</th>
+                <th>Lastname</th>
+                <th>Mail</th>
+                <th>&nbsp</th>
+            </tr>
+			<tr ng-repeat="guest in guests">
+				<td> 
+					{{guest.firstname}}
+				</td>
+				<td>
+		    		{{guest.lastname}}	
+				</td>
+            	<td>
+		    		{{guest.mail}}	
+				</td>
+				<td>
+					<button class="btn btn-default navbar-btn" ng-click="sendRequest(guest.id)"> Send request</button>
+				</td>
+				
+			</tr>
+		</tbody>
+    </table>  
+</div>

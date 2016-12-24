@@ -1,0 +1,69 @@
+
+<!doctype html>
+<html lang="en" ng-app="routerApp">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurants</title>
+<!-- CSS (load bootstrap) -->
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<script src="js/jquery/jquery-2.0.3.js"></script>
+
+<!-- Bootstrap ============================================================= -->
+
+<!-- AngularJS ============================================================= -->
+
+
+<!-- In production use:
+ <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+ -->
+
+<script src="lib/angular/an/angular.js"></script>
+<script src="lib/angular/an/angular-resource.js"></script>
+
+<link rel="stylesheet" type="text/css" href="stilovi.css">
+<link rel="stylesheet" type="text/css" href="guestt/guestStyles.css">
+
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+<!-- AngularJS App Code ==================================================== -->
+<script src="app.js"></script>
+
+<script src="managerBoss/bossManagerService.js"></script>
+<script src="managerBoss/bossManagerController.js"></script>
+
+<script src="managerSystem/systemManagerService.js"></script>
+<script src="managerSystem/systemManagerController.js"></script>
+
+<script src="managerRestaurant/restaurantManagerService.js"></script>
+<script src="managerRestaurant/restaurantManagerController.js"></script>
+
+<script src="employedBartender/employedBartenderService.js"></script>
+<script src="employedBartender/employedBartenderController.js"></script>
+
+<script src="employedCook/employedCookService.js"></script>
+<script src="employedCook/employedCookController.js"></script>
+
+<script src="employedWaiter/employedWaiterService.js"></script>
+<script src="employedWaiter/employedWaiterController.js"></script>
+
+<script src="loginRegistration/loginRegistrationService.js"></script>
+<script src="loginRegistration/loginRegistrationController.js"></script>
+
+<script src="bidder/bidderService.js"></script>
+<script src="bidder/bidderController.js"></script>
+
+<script src="guestt/guestService.js"></script>
+<script src="guestt/guestController.js"></script>
+
+</head>
+<body class="bg">
+
+	<div>
+		<div ui-view></div>
+	</div>
+
+</body>
+</html>
