@@ -1,0 +1,83 @@
+<div class="container">
+    <div layout="column">
+        <div layout="row">
+            <h3>Profile</h3>
+        </div>
+        <md-divider/>
+        <md-card ng-class="{'md-whiteframe-4dp':hovering}"
+                 ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">{{user.firstName}} {{user.lastName}}</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <form novalidate name="profileForm" layout="column">
+                    <md-dialog-content style="padding-top: 30px">
+                        <md-dialog-content>
+                            <pre>Email : {{user.email}}</pre>
+                        </md-dialog-content>
+                    </md-dialog-content>
+                    <md-dialog-actions layout="row" layout-align="end center">
+                        <md-button type="submit" class="md-primary md-raised" ng-click="changePassword()">
+                            Change Password
+                        </md-button>
+                        <md-button type="submit" class="md-primary md-raised" ng-click="edit()">
+                            Edit
+                        </md-button>
+                    </md-dialog-actions>
+                </form>
+            </md-card-content>
+        </md-card>
+        <md-card ng-class="{'md-whiteframe-4dp':hovering}"
+                 ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Friends</span>
+                </md-card-title-text>
+                <md-button class="md-fab md-mini md-primary"
+                           aria-label="Add Store" ng-click="addFriend()">
+                    <md-icon md-svg-src="img/ic_add_white_24px.svg"></md-icon>
+                </md-button>
+            </md-card-title>
+            <md-list flex>
+                <md-subheader class="md-no-sticky">Pending</md-subheader>
+                <md-list-item class="md-3-line" ng-repeat="friendship in pendingFriendships">
+                    <div class="md-list-item-text" style="margin-left: 20px;">
+                        <h3>{{ friendship.originator.id == user.id ? friendship.recipient.firstName + ' ' + friendship.recipient.lastName  : friendship.originator.firstName + ' ' + friendship.originator.lastName }}</h3>
+                        <h4>{{ friendship.originator.id == user.id ? friendship.recipient.email : friendship.originator.email }}</h4>
+                        <p>{{ friendship.created }}</p>
+                    </div>
+                    <md-menu ng-if="user.id == friendship.recipient.id" class="md-secondary">
+                        <md-button ng-click="openMenu($mdOpenMenu, $event)">Respond</md-button>
+                        <md-menu-content width="1">
+                            <md-menu-item>
+                                <md-button ng-click="accept(friendship, $event)">
+                                    Accept
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="decline(friendship, $event)">
+                                    Decline
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-button class="md-secondary" ng-if="user.id == friendship.originator.id" ng-click="cancel(friendship)">Cancel</md-button>
+                </md-list-item>
+                <md-subheader class="md-no-sticky">Accepted</md-subheader>
+                <md-list-item class="md-3-line" ng-repeat="friendship in acceptedFriendships" ng-click="null">
+                    <div class="md-list-item-text" style="margin-left: 20px;">
+                        <h3>{{ friendship.originator.id == user.id ? friendship.recipient.firstName + ' ' + friendship.recipient.lastName  : friendship.originator.firstName + ' ' + friendship.originator.lastName }}</h3>
+                        <h4>{{ friendship.originator.id == user.id ? friendship.recipient.email : friendship.originator.email }}</h4>
+                        <p>{{ friendship.created }}</p>
+                    </div>
+                    <div class="md-secondary" layout="column">
+                        <h6>{{ friendship.status }}</h6>
+                    </div>
+                </md-list-item>
+            </md-list>
+            </md-card-content>
+        </md-card>
+    </div>
+</div>
