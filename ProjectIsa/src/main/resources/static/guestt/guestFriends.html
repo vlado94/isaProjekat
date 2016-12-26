@@ -1,5 +1,24 @@
 <h1>Friends</h1><br/><hr/>
 
+
+
+
+<!--  Deo koji prikazuje zahteve za prijateljstvo koje je gost primio, ako ih ima -->
+<ul ng-init="getRequests()">
+	<li ng-repeat="friend in recivedPending ">
+		<h3>You received a friend request from {{friend.friendSendRequest.firstname}} {{friend.friendSendRequest.lastname}}
+		<button class="btn btn-default navbar-btn" ng-click="acceptRequest(friend.friendSendRequest.id)">Accept</button>
+		<button class="btn btn-default navbar-btn" ng-click="rejectRequest(friend.friendSendRequest.id)">Decline</button>	 	
+		</h3>
+	</li>
+</ul>
+
+
+
+
+
+
+<!-- Deo koji prikazuje sve gostove prijatelje sa njihovim statusima(pending, friends, rejected) -->
 <table ng-init="listFriends()"  class="table table-bordered tableBG" border="1">
 		<tbody>
 	        <tr>
@@ -7,19 +26,23 @@
                 <th>Lastname</th>
                 <th>Mail</th>
                 <th>Status</th>
+                <th>&nbsp</th>
             </tr>
 			<tr ng-repeat="friend in friends">
 				<td> 
-					{{friend.friendReciveRequest.firstname}}
+					{{friend.guest.firstname}}
 				</td>
 				<td>
-		    		{{friend.friendReciveRequest.lastname}}	
+		    		{{friend.guest.lastname}}	
 				</td>
             	<td>
-		    		{{friend.friendReciveRequest.mail}}	
+		    		{{friend.guest.mail}}	
 				</td>
 				<td>
-					<label>Pending...</label>
+					{{friend.status}}
+				</td>
+				<td>
+					<button class="btn btn-default navbar-btn" ng-click="unfriend(friend.id)">Unfriend</button>
 				</td>
 				
 			</tr>
@@ -30,6 +53,12 @@
 
 
 
+
+
+
+
+
+<!--  Deo koji omogucuje pretragu prijatelja -->
 <hr/>
 <div id="friendFind">
 <label>Find friends</label>

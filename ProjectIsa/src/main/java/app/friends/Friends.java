@@ -16,6 +16,12 @@ import lombok.Data;
 @Entity
 @Data
 public class Friends {
+	
+	public static final String PENDING = "Pending";
+	public static final String ACCEPTED = "Friends";
+	public static final String REJECTED = "Rejected";
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "FRIEND_ID")
@@ -32,12 +38,13 @@ public class Friends {
 	private Guest friendReciveRequest;
 
 	@Column
-	private boolean accepted;
+	private String status;	//pending, accepted, rejected
 
-	public Friends(Guest friendSendRequest, Guest friendReciveRequest) {
+	public Friends(Guest friendSendRequest, Guest friendReciveRequest, String status) {
 		super();
 		this.friendSendRequest = friendSendRequest;
 		this.friendReciveRequest = friendReciveRequest;
+		this.status = status;;
 	}
 
 	public Friends() {

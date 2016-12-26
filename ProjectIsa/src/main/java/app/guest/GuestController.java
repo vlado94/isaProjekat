@@ -70,7 +70,9 @@ public class GuestController {
 	public List<Guest> findByFirstAndLastName(@PathVariable String inputStr) {
 		List<Guest> result = service.findByFirstAndLastName(inputStr);
 		//izbacivanje njega samog iz liste
-		result.remove((Guest) httpSession.getAttribute("user"));		
+		result.remove((Guest) httpSession.getAttribute("user"));
+		// treba izbaciti i kad postoji vec prijateljstvo...
+		
 		return result;
 	}
 }

@@ -53,7 +53,19 @@ public class FriendsController {
 			friends.add(allFriendShips.get(i));
 		return new ResponseEntity<>(friends, HttpStatus.OK);
 	}
-
+	
+	// izlistavanje svih primljenih zahteva gosta koji je logovan
+	@GetMapping(path = "/recivedRequests")
+	public ResponseEntity<List<Friends>> findAllRecivedRequests() {
+		Guest logovani = (Guest) httpSession.getAttribute("user");
+		List<Friends> friends = new ArrayList<>();
+		List<Friends> allFriendShips = friendService.findAll();
+		for (int i = 0; i < allFriendShips.size(); i++)					// ako logovani user prima zahtev i ako je status pending
+			if(allFriendShips.get(i).getStatus() == Friends.PENDING &&
+			   allFriendShips.get(i).getFriendReciveRequest().equals(logovani))
+			friends.add(allFriendShips.get(i));
+		return new ResponseEntity<>(friends, HttpStatus.OK);
+	}
 	
 	
 	// 2.2
@@ -74,10 +86,67 @@ public class FriendsController {
 		List<Friends> friends = friendService.findAll();
 
 		for (int i = 0; i < friends.size(); i++)
-			if (friends.get(i).getFriendReciveRequest().getId() == guest.getId() 
-					&& friends.get(i).getFriendSendRequest().getId() == home.getId())
+			if ((friends.get(i).getFriendReciveRequest().getId() == home.getId() 
+					&& friends.get(i).getFriendSendRequest().getId() == guest.getId()) ||
+					(friends.get(i).getFriendReciveRequest().getId() == home.getId() 
+					&& friends.get(i).getFriendSendRequest().getId() == guest.getId()))
 				// ovo se menja, znak je da ovaj prijetelj vec postoji tu
 				throw new BadRequestException();
-		friendService.save(new Friends(home, guest));
+		friendService.save(new Friends(home, guest,Friends.PENDING));
 	}
+	
+	
+	
+	
+	//na bolji nacin preko upita....
+	
+	@GetMapping(path = "/acceptRequest/{idFriend}")
+	@ResponseStatus(HttpStatus.OK)
+	public void acceptRequest(@PathVariable Long idFriend){
+		Guest logovani = (Guest) httpSession.getAttribute("user");
+		Guest senderGuest = Optional.ofNullable(guestService.findOne(idFriend))
+				.orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+		//---pronaci friend par gde je friendSendRequest==senderGuest, a friendReciveRequest==logovani
+		List<Friends> friends = friendService.findAll();
+		for (int i = 0; i < friends.size(); i++){
+			if(friends.get(i).getFriendReciveRequest().equals(logovani) && 
+			   friends.get(i).getFriendSendRequest().equals(senderGuest) ){
+				friendService.remove(friends.get(i)); //nzm kako drugacije da promenim vrednost kolone status.
+				friendService.save(new Friends(senderGuest,logovani,Friends.ACCEPTED));
+				System.out.println("accepted "+friends.get(i).getStatus());
+			}
+		}
+	}
+	
+	
+	
+	//na bolji nacin preko upita....
+	@GetMapping(path = "/rejectRequest/{idFriend}")
+	@ResponseStatus(HttpStatus.OK)
+	public void rejectRequest(@PathVariable Long idFriend){
+		Guest logovani = (Guest) httpSession.getAttribute("user");
+		Guest senderGuest = Optional.ofNullable(guestService.findOne(idFriend))
+				.orElseThrow(() -> new ResourceNotFoundException("Resource Not Found!"));
+		//---pronaci friend par gde je friendSendRequest==senderGuest, a friendReciveRequest==logovani
+		List<Friends> friends = friendService.findAll();
+		for (int i = 0; i < friends.size(); i++){
+			if(friends.get(i).getFriendReciveRequest().equals(logovani) && 
+			   friends.get(i).getFriendSendRequest().equals(senderGuest) ){
+				friendService.remove(friends.get(i));	//nzm kako drugacije da promenim vrednost kolone status. Promeniti OBAVEZNO!
+				friendService.save(new Friends(senderGuest,logovani,Friends.REJECTED));
+				System.out.println("rejected");
+			}
+		}
+
+		
+	}
+	
+	
+	//Brisanje prijateljstva
+	@GetMapping(path = "/unfriend/{idFriend}")
+	@ResponseStatus(HttpStatus.OK)
+	public void unfriend(@PathVariable Long idFriend) {
+		friendService.remove(idFriend);
+	}
+	
 }

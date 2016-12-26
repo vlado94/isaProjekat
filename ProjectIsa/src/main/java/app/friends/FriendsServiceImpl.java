@@ -28,4 +28,17 @@ public class FriendsServiceImpl implements FriendsService {
 	public List<Friends> findAll() {
 		return Lists.newArrayList(repository.findAll());
 	}
+
+	@Override
+	public void remove(Friends friends) {
+		repository.delete(friends);
+	}
+
+	@Override
+	public void remove(Long id) {
+		repository.delete(id);
+	}
+	
+	
+	
 }

@@ -27,4 +27,22 @@ services.service('guestService', ['$http', function($http){
 	this.listFriends = function(){
 		return $http.get("/friends/list");
 	}
+	
+	this.findAllRecivedPendingRequests = function(){
+		return $http.get("/friends/recivedRequests");
+	}
+	
+	this.acceptFriendRequest = function(id){
+		return $http.get("/friends/acceptRequest/"+id);
+	}
+	
+	this.rejectFriendRequest = function(id){
+		return $http.get("/friends/rejectRequest/"+id);
+	}
+	
+	this.unfriend = function(id){
+		return $http.get("/friends/unfriend/"+id);
+	}
+	
+	
 }]);

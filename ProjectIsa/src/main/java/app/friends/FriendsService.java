@@ -6,5 +6,9 @@ public interface FriendsService {
 	void save(Friends friends);
 	
 	List<Friends> findAll();
+	
+	void remove(Friends friends);
+	
+	void remove(Long id);
 
 }
