@@ -1,6 +1,9 @@
 package app.bidder;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import app.restaurant.restaurantOrder.RestaurantOrderr;
 
 public interface BidderService {
 	List<Bidder> findAll();
@@ -14,4 +17,8 @@ public interface BidderService {
 	Bidder findOneWithMail(String mail);
 
 	void delete(Long id);
+
+	ArrayList<RestaurantOrderr> selectAllOffersWhereBidderCompeted(Bidder bidder);
+
+	boolean tryToChangeValueOfOffer(RestaurantOrderr restaurantOrderr, Long bidderId, Bidder bidder);
 }

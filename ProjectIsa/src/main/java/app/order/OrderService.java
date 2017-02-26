@@ -10,4 +10,6 @@ public interface OrderService {
 	Orderr findOne(Long id);
 
 	void delete(Long id);
+	
+	int total(Long id);
 }

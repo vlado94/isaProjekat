@@ -5,14 +5,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -22,8 +23,12 @@ import app.drink.Drink;
 import app.employed.bartender.Bartender;
 import app.employed.cook.Cook;
 import app.employed.waiter.Waiter;
+import app.manager.changedShiftBartender.ChangedShiftBartender;
+import app.manager.changedShiftCook.ChangedShiftCook;
+import app.manager.changedShiftWaiter.ChangedShiftWaiter;
 import app.manager.restaurant.RestaurantManager;
 import app.order.Orderr;
+import app.restaurant.restaurantOrder.RestaurantOrderr;
 import lombok.Data;
 
 @Data
@@ -38,10 +43,9 @@ public class Restaurant {
 	@NotBlank
 	private String name;
 
-	@NotNull
-	@OneToOne(cascade = CascadeType.MERGE)
-	@JoinColumn(name = "RESTAURANT_MANAGER_ID")
-	private RestaurantManager restaurantManager;
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_MANAGERS_OF_RESTAURANT", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "RESTAURANT_MANAGER_ID"))
+	private List<RestaurantManager> restaurantManagers;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "RESTAURANT_DISH", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "DISH_ID"))
@@ -51,7 +55,8 @@ public class Restaurant {
 	@JoinTable(name = "RESTAURANT_DRINK", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "DRINK_ID"))
 	private List<Drink> drinks;
 
-	@OneToMany(mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "RESTAURANT_SEGMENT", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "SEGMENT_ID"))
 	private List<Segment> segments;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -66,17 +71,73 @@ public class Restaurant {
 	@JoinTable(name = "RESTAURANT_BARTENDERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "BARTENDER_ID"))
 	private List<Bartender> bartenders;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "RESTAURANT_BIDDERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "BIDDER_ID"))
 	private List<Bidder> bidders;
 
 	@Column
-	private Integer summRate;
+	private Double summRate;
 
-	@Column
-	private Integer numRate;
+
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_RATES", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "RATE_RESTAURANT_ID"))
+	private List<RateRestaurant> rateRestaurant;
 
 	@OneToMany
 	@JoinTable(name = "RESTAURANT_ORDER", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "ORDER_ID"))
 	private List<Orderr> order;
+	
+	//lista porudzbina restorana
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_RESTAURANT_ORDER", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "RESTAURANT_ORDER_ID"))
+	private List<RestaurantOrderr> restaurantOrders;
+	
+	@Column
+	@NotBlank
+	private String country;
+
+	
+	@Column
+	@NotBlank
+	private String description;
+
+	@Column
+	@NotBlank
+	private String city;
+	
+	@Column
+	@NotBlank
+	private String street;
+	
+	@Column
+	@NotBlank
+	private String number;
+	
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_CHANGED_SHIFTS_COOKS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "SHIFT_ID"))
+	private List<ChangedShiftCook> changedShiftsForCooks;
+	
+	
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_CHANGED_SHIFTS_BARTENDERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "SHIFT_ID"))
+	private List<ChangedShiftBartender> changedShiftsForBartenders;
+	
+	
+	@OneToMany
+	@JoinTable(name = "RESTAURANT_CHANGED_SHIFTS_WAITERS", joinColumns = @JoinColumn(name = "RESTAURANT_ID"), inverseJoinColumns = @JoinColumn(name = "SHIFT_ID"))
+	private List<ChangedShiftWaiter> changedShiftsForWaiters;
+	
+	public double getSummRate(){
+		double sum = 0;
+		double average = 0;
+		for(int i = 0 ; i < this.rateRestaurant.size(); i++){
+			sum += rateRestaurant.get(i).getRate();
+			
+		}
+		average = sum/this.rateRestaurant.size();
+		
+		return average;
+		
+	}
+	
 }

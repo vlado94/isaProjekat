@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.ws.rs.BadRequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -20,10 +21,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.bidder.Bidder;
+import app.dish.Dish;
+import app.drink.Drink;
+import app.employed.bartender.Bartender;
+import app.employed.cook.Cook;
+import app.employed.waiter.Waiter;
+import app.manager.changedShiftBartender.ChangedShiftBartender;
+import app.manager.changedShiftCook.ChangedShiftCook;
+import app.manager.changedShiftWaiter.ChangedShiftWaiter;
 import app.manager.restaurant.RestaurantManager;
 import app.manager.restaurant.RestaurantManagerService;
+import app.order.Orderr;
+import app.restaurant.RateRestaurant;
 import app.restaurant.Restaurant;
 import app.restaurant.RestaurantService;
+import app.restaurant.Segment;
+import app.restaurant.restaurantOrder.RestaurantOrderr;
 
 @RestController
 @RequestMapping("/systemManager")
@@ -106,9 +120,33 @@ public class SystemManagerController {
 	// bio postavljen za menadzer datog restoran
 	@PostMapping(path = "/restaurant")
 	@ResponseStatus(HttpStatus.CREATED)
-	public void saveRestaurant(@Valid @RequestBody Restaurant restaurant) {
-		restaurant.setId(null);
-		restaurantService.save(restaurant);
+	public void saveRestaurant(@RequestBody Restaurant restaurant) {
+		try {
+			restaurant.setId(null);
+			restaurant = initializeRestaurant(restaurant);
+			restaurantService.save(restaurant);
+		}
+		catch (Exception e) {
+			throw new BadRequestException();
+		}
+	}
+	
+	private Restaurant initializeRestaurant(Restaurant restaurant) {
+		restaurant.setFood(new ArrayList<Dish>());
+		restaurant.setDrinks(new ArrayList<Drink>());
+		restaurant.setSegments(new ArrayList<Segment>());
+		restaurant.setWaiters(new ArrayList<Waiter>());
+		restaurant.setCooks(new ArrayList<Cook>());
+		restaurant.setBartenders(new ArrayList<Bartender>());
+		restaurant.setBidders(new ArrayList<Bidder>());
+		restaurant.setRateRestaurant(new ArrayList<RateRestaurant>());
+		restaurant.setOrder(new ArrayList<Orderr>());
+		restaurant.setRestaurantOrders(new ArrayList<RestaurantOrderr>());
+		restaurant.setChangedShiftsForCooks(new ArrayList<ChangedShiftCook>());
+		restaurant.setChangedShiftsForBartenders(new ArrayList<ChangedShiftBartender>());
+		restaurant.setChangedShiftsForWaiters(new ArrayList<ChangedShiftWaiter>());
+		restaurant.setSummRate(0.0);
+		return restaurant;		
 	}
 
 	@PutMapping(path = "/{id}")

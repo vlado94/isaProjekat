@@ -39,4 +39,25 @@ public class OrderServiceImpl implements OrderService {
 		repository.delete(id);
 	}
 
+	@Override
+	public int total(Long id) {
+		Orderr order = repository.findOne(id);
+		int total = 0;
+		if(order.getDrinks().size() > 0){
+			for(int i = 0 ; i < order.getDrinks().size(); i++){
+				total += order.getDrinks().get(i).getPrice();
+			}
+		}
+		
+		if(order.getFood().size() > 0){
+			for(int i = 0 ; i < order.getFood().size(); i++){
+				total += order.getFood().get(i).getPrice();
+			}
+		}
+		
+		return total;
+	}
+	
+	
+
 }

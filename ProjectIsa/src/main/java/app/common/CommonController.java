@@ -80,7 +80,8 @@ public class CommonController {
 			user = bossManagerService.findByMailAndPassword(userInput.getMail(), userInput.getPassword());
 			id = bossManagerService.findByMailAndPassword(userInput.getMail(), userInput.getPassword()).getId();
 			userType = "boss";
-		} else if (restaurantManagerService.findByMailAndPassword(userInput.getMail(), userInput.getPassword()) != null) {
+		} else if (restaurantManagerService.findByMailAndPassword(userInput.getMail(),
+				userInput.getPassword()) != null) {
 			user = restaurantManagerService.findByMailAndPassword(userInput.getMail(), userInput.getPassword());
 			id = restaurantManagerService.findByMailAndPassword(userInput.getMail(), userInput.getPassword()).getId();
 			userType = "restaurant";
@@ -179,8 +180,7 @@ public class CommonController {
 			systemManager.setRegistrated("1");
 			systemManager.setPassword(userInput.getPassword());
 			systemManagerService.save(systemManager);
-		}
-		else if (bidderService.findOneWithMail(userInput.getMail()) != null) {
+		} else if (bidderService.findOneWithMail(userInput.getMail()) != null) {
 			Bidder bidder = bidderService.findOne(id);
 			bidder.setId(id);
 			bidder.setRegistrated("1");
